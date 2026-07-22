@@ -5,11 +5,13 @@ Revises:
 Create Date: 2026-07-22
 
 """
+
 from collections.abc import Sequence
 
 import sqlalchemy as sa
-from alembic import op
 from sqlalchemy.dialects import postgresql
+
+from alembic import op
 
 revision: str = "0001"
 down_revision: str | None = None
@@ -22,7 +24,12 @@ def upgrade() -> None:
         "notes",
         sa.Column("id", postgresql.UUID(as_uuid=True), primary_key=True),
         sa.Column("text", sa.String(500), nullable=False),
-        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+        sa.Column(
+            "created_at",
+            sa.DateTime(timezone=True),
+            server_default=sa.func.now(),
+            nullable=False,
+        ),
     )
     op.create_index("notes_created_at_idx", "notes", ["created_at"])
 
